@@ -5,7 +5,7 @@ function MyComponent() {
     function handleAddTodo() {
         const newTodo = document.getElementById("todoInput").value;
         document.getElementById("no-todo").style.display = "none";
-        if (newTodo === "") {
+        if (newTodo.trim() === "") {
             alert("Please enter a todo item.");
             return;
 
@@ -17,6 +17,29 @@ function MyComponent() {
         }
 
     }
+
+    function MoveTodoUp(index) {
+        if (index > 0) {
+            const updatedTodos = [...todo];
+            [updatedTodos[index], updatedTodos[index-1]] = [updatedTodos[index-1], updatedTodos[index]];
+            addTodo(updatedTodos);
+        }
+    }
+    function MoveTodoDown(index) {
+        if (index=== todo.length - 1) {
+            return; // Can't move down if it's the last item
+            }
+        
+    
+
+            const updatedTodos = [...todo];
+            [updatedTodos[index], updatedTodos[index+1]] = [updatedTodos[index+1], updatedTodos[index]];
+                
+            addTodo(updatedTodos);
+
+        
+    }
+
 
     function handleRemoveTodo(index) {
         addTodo(todo.filter((_, i) => i !== index));
@@ -38,7 +61,12 @@ function MyComponent() {
                             {todo.map((todo, index) =>
                                 <li key={index}>
                                     {todo}
-                                    <button onClick={() => handleRemoveTodo(index)}>Remove</button>
+                                    <div>
+
+                                    <button className='task-button' onClick={() => handleRemoveTodo(index)}>Remove</button>
+                                    <button className='task-button' onClick={() => MoveTodoUp(index)}>👆</button>
+                                    <button className='task-button' onClick={() => MoveTodoDown(index)}>👇</button>
+                                    </div>
                                 </li>
                             )}
                         </ul>
